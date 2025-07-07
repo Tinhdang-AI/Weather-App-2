@@ -7,7 +7,7 @@ class WeeklyForecast extends StatefulWidget {
   final List<dynamic> next7days;
   final Map<String, dynamic> currentValue;
 
-  const WeeklyForecast({
+  WeeklyForecast({
     super.key,
     required this.city,
     required this.pastWeek,
@@ -32,7 +32,7 @@ class _WeeklyForecastState extends State<WeeklyForecast> {
         condition['icon'] != null ? "https:${condition['icon']}" : "";
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -63,13 +63,12 @@ class _WeeklyForecastState extends State<WeeklyForecast> {
                       ),
                     ),
                     Text(
-                      "${condition['text'] ?? ''}",
+                      "${widget.currentValue['condition']['text']}",
                       style: TextStyle(
                         fontSize: 22,
                         color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
-                    if (iconUrl.isNotEmpty)
                       Image.network(
                         iconUrl,
                         width: 150,
@@ -95,8 +94,8 @@ class _WeeklyForecastState extends State<WeeklyForecast> {
                 final date = day['date'] ?? "";
                 final condition = day['day']?['condition']?['text'] ?? '';
                 final icon = day['day']?['condition']?['icon'] ?? '';
-                final maxTemp = day['day']?['maxtemp_c'];
-                final minTemp = day['day']?['mintemp_c'];
+                final maxTemp = day['day']?['maxtemp_c'] ?? '';
+                final minTemp = day['day']?['mintemp_c'] ?? '';
 
                 return ListTile(
                   leading: Image.network("https:$icon", width: 40),
@@ -135,11 +134,11 @@ class _WeeklyForecastState extends State<WeeklyForecast> {
                 final date = forecast['date'] ?? "";
                 final condition = forecast['day']?['condition']?['text'] ?? '';
                 final icon = forecast['day']?['condition']?['icon'] ?? '';
-                final maxTemp = forecast['day']?['maxtemp_c'];
-                final minTemp = forecast['day']?['mintemp_c'];
+                final maxTemp = forecast['day']?['maxtemp_c']  ?? '';
+                final minTemp = forecast['day']?['mintemp_c']  ?? '';
 
                 return ListTile(
-                  leading: Image.network("https:$icon", width: 40),
+                  leading: Image.network('https:$icon', width: 40),
                   title: Text(
                     formatApiData(date),
                     style: TextStyle(
@@ -161,3 +160,4 @@ class _WeeklyForecastState extends State<WeeklyForecast> {
     );
   }
 }
+

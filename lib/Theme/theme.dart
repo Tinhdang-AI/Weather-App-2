@@ -5,7 +5,7 @@ final lightTheme = ThemeData(
   primaryColor: Color(0xff1a1a16),
   colorScheme: ColorScheme.light(
     primary: Color.fromARGB(26, 255, 255, 255),
-    secondary: Colors.white,
+    secondary: Colors.white, 
     surface: Colors.white30,
     onPrimary: Colors.white70,
   ),

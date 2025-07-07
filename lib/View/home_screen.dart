@@ -43,7 +43,6 @@ class _WeatherAppHomeScreenState extends ConsumerState<WeatherAppHomeScreen> {
         // hourly = forecast['hourly']?['']?[0]?['hour'] ?? [];
         hourly = forecast['forecast']?['forecastday']?[0]?['hour'] ?? [];
 
-
         //fore next 7day forecast
 
         next7days = forecast['forecast']?['forecastday'] ?? [];
@@ -96,12 +95,11 @@ class _WeatherAppHomeScreenState extends ConsumerState<WeatherAppHomeScreen> {
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-
         actions: [
           SizedBox(width: 25),
           SizedBox(
             width: 320,
-            height: 50,
+            height: 46,
             child: TextField(
               style: TextStyle(color: Theme.of(context).colorScheme.secondary),
               onSubmitted: (value) {
@@ -120,6 +118,7 @@ class _WeatherAppHomeScreenState extends ConsumerState<WeatherAppHomeScreen> {
                   Icons.search,
                   color: Theme.of(context).colorScheme.surface,
                 ),
+                contentPadding: EdgeInsets.symmetric(horizontal: 15),
                 labelStyle: TextStyle(
                   color: Theme.of(context).colorScheme.surface,
                 ),
@@ -154,187 +153,175 @@ class _WeatherAppHomeScreenState extends ConsumerState<WeatherAppHomeScreen> {
         ],
       ),
 
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 20),
-          if (isLoading)
-            const Center(child: CircularProgressIndicator())
-          else ...[
-            if (currentValue.isNotEmpty)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "$city${country.isNotEmpty ? ',$country' : ''}",
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.w400,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                  ),
-                  Text(
-                    "${currentValue['temp_c']}°C",
-                    style: TextStyle(
-                      fontSize: 50,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                  ),
-                  Text(
-                    "${currentValue['condition']['text']}",
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  ),
-                  imageWidgets,
-                  Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Container(
-                      height: 100,
-                      width: double.maxFinite,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Theme.of(context).colorScheme.primary,
-                            offset: Offset(1, 1),
-                            blurRadius: 10,
-                            spreadRadius: 1,
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(30),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 20),
+            if (isLoading)
+              const Center(child: CircularProgressIndicator())
+            else ...[
+              if (currentValue.isNotEmpty)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "$city${country.isNotEmpty ? ',$country' : ''}",
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    ),
+                    Text(
+                      "${currentValue['temp_c']}°C",
+                      style: TextStyle(
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
+                    Text(
+                      "${currentValue['condition']['text']}",
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ),
+                    imageWidgets,
+                    Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Container(
+                        height: 100,
+                        width: double.maxFinite,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).colorScheme.primary,
+                              offset: Offset(1, 1),
+                              blurRadius: 10,
+                              spreadRadius: 1,
+                            ),
+                          ],
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
 
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // for humidity
-                              Image.network(
-                                "https://cdn-icons-png.flaticon.com/256/4148/4148460.png",
-                                width: 30,
-                                height: 30,
-                              ),
-                              Text(
-                                "${currentValue['humidity']}%",
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  fontWeight: FontWeight.bold,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // for humidity
+                                Image.network(
+                                  "https://cdn-icons-png.flaticon.com/256/4148/4148460.png",
+                                  width: 30,
+                                  height: 30,
                                 ),
-                              ),
-                              Text(
-                                "Humidity",
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
+                                Text(
+                                  "${currentValue['humidity']}%",
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // for wind
-                              Image.network(
-                                "https://cdn-icons-png.flaticon.com/512/5918/5918654.png",
-                                width: 30,
-                                height: 30,
-                              ),
-                              Text(
-                                "${currentValue['wind_kph']} kph",
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  "Humidity",
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "Wind",
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // for wind
+                                Image.network(
+                                  "https://cdn-icons-png.flaticon.com/512/5918/5918654.png",
+                                  width: 30,
+                                  height: 30,
                                 ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // for max temp
-                              Image.network(
-                                "https://cdn-icons-png.flaticon.com/512/6281/6281340.png",
-                                width: 30,
-                                height: 30,
-                              ),
-                              Text(
-                                "${hourly.isNotEmpty ? hourly.map((h) => h['temp_c']).reduce((a, b) => a > b ? a : b) : "N/A"}",
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  "${currentValue['wind_kph']} kph",
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "Max Temp",
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
+                                Text(
+                                  "Wind",
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: 250,
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(
-                          color: Theme.of(context).colorScheme.secondary,
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // for max temp
+                                Image.network(
+                                  "https://cdn-icons-png.flaticon.com/512/6281/6281340.png",
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                Text(
+                                  "${hourly.isNotEmpty ? hourly.map((h) => h['temp_c']).reduce((a, b) => a > b ? a : b) : "N/A"}",
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  "Max Temp",
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(40),
-                      ),
                     ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
+                    SizedBox(height: 15),
+                    Container(
+                      height: 250,
+                      width: double.maxFinite,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          top: BorderSide(
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Today Forecast",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(context,MaterialPageRoute(builder: (context) => WeeklyForecast(city: city,currentValue:currentValue, pastWeek: pastWeek, next7days: next7days)));
-                                },
-                                child: Text(
-                                  "Weekly Forecast",
+                        ),
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(40),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 10),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Today Forecast",
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -342,73 +329,112 @@ class _WeatherAppHomeScreenState extends ConsumerState<WeatherAppHomeScreen> {
                                         Theme.of(context).colorScheme.secondary,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Divider(color: Theme.of(context).colorScheme.secondary),
-                        SizedBox(height: 10),
-                        SizedBox(
-                          height: 155,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: hourly.length,
-                            itemBuilder: (context, index) {
-                              final hour = hourly[index];
-                              final now = DateTime.now();
-                              final hourTime = DateTime.parse(hour['time']);
-                              final isCurrentHour =
-                                  now.hour == hourTime.hour &&
-                                  now.day == hourTime.day;
-                              return Padding(
-                                padding: EdgeInsets.all(8),
-                                child: Container(
-                                  height: 70,
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        isCurrentHour
-                                            ? Colors.orangeAccent
-                                            : Colors.black,
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        isCurrentHour
-                                            ? "Now"
-                                            : formateTime(hour['time']),
-                                            style: TextStyle(color: Theme.of(context).colorScheme.secondary,
-                                            fontWeight: FontWeight.w500,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => WeeklyForecast(
+                                              city: city,
+                                              currentValue: currentValue,
+                                              pastWeek: pastWeek,
+                                              next7days: next7days,
                                             ),
                                       ),
-                                      SizedBox(height: 10),
-                                      Image.network("http:${hour['condition']?['icon']}",
-                                      width: 40,
-                                      height: 40,
-                                      fit: BoxFit.cover,
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text("${hour["temp_c"]}°C",style: TextStyle(
-                                        color: Theme.of(context).colorScheme.secondary,
-                                        fontWeight: FontWeight.w500,
-
-                                      ),)
-                                  
-                                    ],
+                                    );
+                                  },
+                                  child: Text(
+                                    "Weekly Forecast",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary,
+                                    ),
                                   ),
                                 ),
-                              );
-                            },
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                          Divider(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                          SizedBox(height: 10),
+                          SizedBox(
+                            height: 155,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: hourly.length,
+                              itemBuilder: (context, index) {
+                                final hour = hourly[index];
+                                final now = DateTime.now();
+                                final hourTime = DateTime.parse(hour['time']);
+                                final isCurrentHour =
+                                    now.hour == hourTime.hour &&
+                                    now.day == hourTime.day;
+                                return Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: Container(
+                                    height: 70,
+                                    padding: EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color:
+                                          isCurrentHour
+                                              ? Colors.orangeAccent
+                                              : Colors.black38,
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          isCurrentHour
+                                              ? "Now"
+                                              : formateTime(hour['time']),
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(
+                                                  context,
+                                                ).colorScheme.secondary,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+
+                                        SizedBox(height: 10),
+                                        Image.network(
+                                          "http:${hour['condition']?['icon']}",
+                                          width: 40,
+                                          height: 40,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "${hour["temp_c"]}°C",
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(
+                                                  context,
+                                                ).colorScheme.secondary,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

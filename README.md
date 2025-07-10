@@ -30,7 +30,7 @@ A mobile application built to deliver precise and real-time weather updates with
 
 
 
-🛠️ **Công nghệ sử dụng**
+🛠️ **Technology**
 - **Framework**: Flutter
 - **Ngôn ngữ**: Dart
 - **State Management**: Riverpod
@@ -38,14 +38,14 @@ A mobile application built to deliver precise and real-time weather updates with
 
 📲 **Installation instructions**
 
- - Đảm bảo bạn đã cài đặt Flutter SDK
+ - Make sure you have installed Flutter SDK
    - Clone repository:  
     git clone https://github.com/Tinhdang-AI/Weather-Forecast-App.git
-   - Di chuyển vào thư mục dự án:  
+   - Move to project folder:  
     cd weather_app
-   - Cài đặt các dependencies:  
+   - Install dependencies:  
     flutter pub get
-   - Chạy ứng dụng:  
+   - Run app:  
     flutter run
 
 
